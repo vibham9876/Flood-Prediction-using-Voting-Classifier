@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        #loginForm {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #loginForm label {
+            display: flex;
+            justify-content: space-between;
+            width: 100%; /* Adjust the width as needed */
+            text-align: left;
+            margin-bottom: 10px; /* Adjust the margin as needed */
+        }
+        
+        
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: black;
+        }
+        
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 999;
+        }
+        
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+    </style>
+    <title>Flood Prediction Analysis</title>
+
+</head>
+<link rel="stylesheet" href="static/css/styles.css">
+<body background="/static/images/00.jpg">
+    <div id="loginForm">
+        <h2>Flood Prediction Analysis</h2>
+        <form id="profileForm" action="../output" method="post">
+            {% csrf_token %}
+
+            <div style="display: flex; justify-content: space-between;">
+                <!-- First column -->
+                <div style="width: 45%;">
+                    <label for="MonsoonIntensity">
+                        <span>Monsoon Intensity:</span>
+                        <input type="number" id="MonsoonIntensity" name="MonsoonIntensity" value="" required style="width: 77%; height: 20px;" step="any">
+                    </label>
+                    <label for="TopographyDrainage">
+                        <span>Topography Drainage:</span>
+                        <input type="number" id="TopographyDrainage" name="TopographyDrainage" value="" required style="width: 86%; height: 20px;" step="any">
+                    </label>
+                    <label for="RiverManagement">
+                        <span>River Management:</span>
+                        <input type="number" id="RiverManagement" name="RiverManagement" value="" required style="width: 77%; height: 20px;" step="any">
+                    </label>
+                    <label for="Deforestation">
+                        <span>Deforestation:</span>
+                        <input type="number" id="Deforestation" name="Deforestation" value="" required style="width: 64%; height: 20px;" step="any">
+                    </label>
+                    <label for="Urbanization">
+                        <span>Urbanization:</span>
+                        <input type="number" id="Urbanization" name="Urbanization" value="" required style="width: 64%; height: 20px;" step="any">
+                    </label>
+                    <label for="ClimateChange">
+                        <span>Climate Change:</span>
+                        <input type="number" id="ClimateChange" name="ClimateChange" value="" required style="width: 66%; height: 20px;" step="any">
+                    </label>
+                    <label for="DamsQuality">
+                        <span>Dams Quality:</span>
+                        <input type="number" id="DamsQuality" name="DamsQuality" value="" required style="width: 64%; height: 20px;" step="any">
+                    </label>
+                    <label for="Siltation">
+                        <span>Siltation:</span>
+                        <input type="number" id="Siltation" name="Siltation" value="" required style="width: 64%; height: 20px;" step="any">
+                    </label>
+                    <label for="AgriculturalPractices">
+                        <span>Agricultural Practices:</span>
+                        <input type="number" id="AgriculturalPractices" name="AgriculturalPractices" value="" required style="width: 86%; height: 20px;" step="any">
+                    </label>
+                    <label for="Encroachments">
+                        <span>Encroachments:</span>
+                        <input type="number" id="Encroachments" name="Encroachments" value="" required style="width: 100%; height: 20px;" step="any">
+                    </label>
+                </div>
+            
+                <!-- Second column -->
+                <div style="width: 45%;">
+                    <label for="IneffectiveDisasterPreparedness">
+                        <span>Ineffective Disaster Preparedness:</span>
+                        <input type="number" id="IneffectiveDisasterPreparedness" name="IneffectiveDisasterPreparedness" value="" required style="width: 100%; height: 20px;" step="1">
+                    </label>
+                    <label for="DrainageSystems">
+                        <span>Drainage Systems:</span>
+                        <input type="number" id="DrainageSystems" name="DrainageSystems" value="" required style="width: 57%; height: 20px;" step="1">
+                    </label>
+                    <label for="CoastalVulnerability">
+                        <span>Coastal Vulnerability:</span>
+                        <input type="number" id="CoastalVulnerability" name="CoastalVulnerability" value="" required style="width: 62%; height: 20px;" step="1">
+                    </label>
+                    <label for="Landslides">
+                        <span>Landslides:</span>
+                        <input type="number" id="Landslides" name="Landslides" value="" required style="width: 57%; height: 20px;" step="1">
+                    </label>
+                    <label for="Watersheds">
+                        <span>Watersheds:</span>
+                        <input type="number" id="Watersheds" name="Watersheds" value="" required style="width: 57%; height: 20px;" step="1">
+                    </label>
+
+                    <label for="DeterioratingInfrastructure">
+                        <span>Deteriorating Infrastructure:</span>
+                        <input type="number" id="DeterioratingInfrastructure" name="DeterioratingInfrastructure" value="" required style="width: 80%; height: 20px;" step="1">
+                    </label>
+                    <label for="PopulationScore">
+                        <span>Population Score:</span>
+                        <input type="number" id="PopulationScore" name="PopulationScore" value="" required style="width: 57%; height: 20px;" step="1">
+                    </label>
+                    <label for="WetlandLoss">
+                        <span>Wetland Loss:</span>
+                        <input type="number" id="WetlandLoss" name="WetlandLoss" value="" required style="width: 57%; height: 20px;" step="1">
+                    </label>
+                    <label for="InadequatePlanning">
+                        <span>Inadequate Planning:</span>
+                        <input type="number" id="InadequatePlanning" name="InadequatePlanning" value="" required style="width: 62%; height: 20px;" step="1">
+                    </label>
+                    <label for="PoliticalFactors">
+                        <span>Political Factors:</span>
+                        <input type="number" id="PoliticalFactors" name="PoliticalFactors" value="" required style="width: 57%; height: 20px;" step="1">
+                    </label>
+                </div>
+            </div>
+            
+            
+        
+            <div class="wrap-input100 validate-input" data-validate="Password is required">
+                <select class="input100" name="algo" style="width: 28%; height: 25px;" required>
+                    <option value='svm'>Support Vector Machine</option>
+                    <option value='rf'>Random Forest</option>
+					<option value='vot'>Voting Classifier</option>
+                </select>   
+            </div>
+        <br>
+            <button type="submit">Predict</button>
+        </form>
+        
+        <!-- <form id="profileForm" action="output">
+            <label for="abuseReports">
+                <span>No Of Abuse Reports:</span>
+                <input type="text" id="abuseReports" value="abuseReports" required>
+            </label>
+
+            <label for="posts">
+                <span>No Of Posts:</span>
+                <input type="text" id="posts" value="posts"  required>
+            </label>
+
+            <label for="rejectedFriendRequests">
+                <span>No Of Rejected Friend Requests:</span>
+                <input type="text" id="rejectedFriendRequests" value="rejectedFriendRequests"  required>
+            </label>
+
+            <label for="unacceptedFriendRequests">
+                <span>No Of Friend Requests That Are Not Accepted:</span>
+                <input type="text" id="unacceptedFriendRequests"value="unacceptedFriendRequests"  required>
+            </label>
+
+            <label for="friends">
+                <span>No Of Friends:</span>
+                <input type="text" id="friends"  value="friends" required>
+            </label>
+
+            <label for="follows">
+                <span>No Of Follows:</span>
+                <input type="text" id="follows"  value="follows"  required>
+            </label>
+
+            <label for="followers">
+                <span>No Of Followers:</span>
+                <input type="text" id="followers" value="followers"  required>
+            </label>
+
+            <label for="likesToUnknownAccount">
+                <span>No Of Likes To Unknown Account:</span>
+                <input type="text" id="likesToUnknownAccount" value="likesToUnknownAccount"  required>
+            </label>
+
+            <label for="commentsPerDay">
+                <span>No Of Comments Per Day:</span>
+                <input type="text" id="commentsPerDay"  value="commentsPerDay"  required>
+            </label>
+        
+            
+            
+            <div class="wrap-input100 validate-input" data-validate="Password is required">
+                <select class="input100" name="algo">
+                <option value='knn'>KNN Algorithm</option> -->
+                <!-- <option value='log'>Logistic Regression</option> -->
+                <!-- <option value='xgb'>XGB boost</option>
+                <option value='rf'>Random Forest</option>
+                </select>   
+            </div>
+          
+
+           <a href="output" > <button type="button" >Detect Fake Profile</button></a>
+        </form> -->
+
+        <div id="result"></div>
+
+        <div id="customAlert">
+            <p id="alertMessage"></p>
+            <button onclick="closeCustomAlert()">OK</button>
+        </div>
+
+        <div id="overlay"></div>
+    </div>
+
+    <script>
+        function detectFakeProfile() {
+            // Retrieve values from input fields
+            const abuseReports = parseInt(document.getElementById('abuseReports').value);
+            const posts = parseInt(document.getElementById('posts').value);
+            const rejectedFriendRequests = parseInt(document.getElementById('rejectedFriendRequests').value);
+            const unacceptedFriendRequests = parseInt(document.getElementById('unacceptedFriendRequests').value);
+            const friends = parseInt(document.getElementById('friends').value);
+            const follows = parseInt(document.getElementById('follows').value);
+            const followers = parseInt(document.getElementById('followers').value);
+            const likesToUnknownAccount = parseInt(document.getElementById('likesToUnknownAccount').value);
+            const commentsPerDay = parseInt(document.getElementById('commentsPerDay').value);
+        
+            // Check if any required field is empty
+            if (!abuseReports || !posts || !rejectedFriendRequests || !unacceptedFriendRequests || !friends || !follows || !followers || !likesToUnknownAccount || !commentsPerDay) {
+                showCustomAlert("Please fill in all values before detecting profile.");
+                return;
+            }
+        
+            // Define simple rules for fake profile detection
+            const fakeConditions = [
+                abuseReports > 5,
+                posts < 10,
+                rejectedFriendRequests > 50,
+                unacceptedFriendRequests > 50,
+                friends < 20,
+                follows < 10,
+                followers < 10,
+                likesToUnknownAccount > 100,
+                commentsPerDay > 250
+            ];
+        
+            // const totalConditions = fakeConditions.length;
+            // const trueConditions = fakeConditions.filter(condition => condition).length;
+        
+            // // Calculate the percentage of fake profile likelihood
+            // const percentageFake = (trueConditions / totalConditions) * 100;
+            // const percentageLegitimate = 100 - percentageFake;
+        
+            // // Determine overall profile status
+            // const overallStatus = percentageFake >= 50 ? 'Fake Profile Detected!' : 'Legitimate Profile';
+        
+            // // Display result with overall and individual percentages
+            // const resultDiv = document.getElementById('result');
+            // resultDiv.innerHTML = `
+            //     <p>Fake Profile Percentage: <span style="color: red;">${percentageFake.toFixed(2)}%</span></p>
+            //     <p>Real Profile Percentage: <span style="color: green;">${percentageLegitimate.toFixed(2)}%</span></p>
+            //     <p>Overall: <span style="color: ${percentageFake >= 50 ? 'red' : 'green'};">${overallStatus}</span></p>
+            // `;
+        }
+        
+        function showCustomAlert(message) {
+            document.getElementById('alertMessage').innerText = message;
+            document.getElementById('customAlert').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        
+        function closeCustomAlert() {
+            document.getElementById('customAlert').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
